@@ -1,0 +1,27 @@
+﻿@model ProductBrandViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-10">
+            <div class="form-floating">
+
+                <input type="text" class="form-control" asp-for="Name" placeholder="Enter Brand" />
+                <label class="col-form-label">Name</label>
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+
+
+        <div class="mt-3 col-3">
+            <button class="btn btn-primary" asp-action="Create">Add New Brand</button>
+        </div>
+
+
+    </div>
+</form>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

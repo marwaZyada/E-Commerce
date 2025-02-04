@@ -1,0 +1,20 @@
+﻿@model RoleFormViewModel;
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<form class="form-inline " asp-action="Create" method="post" asp-asp-controller="Role">
+
+
+    <div class="d-flex">
+        <input type="text" class="form-control mx-sm-3 w-75" asp-for="Name" placeholder="enter role">
+      
+        <button type="submit" class="btn btn-primary mb-2">Create</button>
+
+    </div>
+    <span asp-validation-for="Name" class="text-danger"></span>
+   
+</form>
+@section Scripts
+  {  <partial name="_ValidationScriptsPartial" />}
