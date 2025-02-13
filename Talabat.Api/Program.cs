@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<StoreContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -46,7 +47,13 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
     return ConnectionMultiplexer.Connect(connection);
 });
 builder.Services.AddScoped(typeof(IBasketRepository),typeof(BasketRepository));
-
+builder.Services.AddCors(option=>
+{
+    option.AddPolicy("mypolicy", option =>
+{
+    option.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+});
+    });
 
 
 // update database
@@ -89,7 +96,7 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("mypolicy");
 app.MapControllers();
 
 app.Run();

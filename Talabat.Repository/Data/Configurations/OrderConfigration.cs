@@ -19,6 +19,9 @@ namespace Talabat.Repository.Data.Configurations
                 os => (OrderStatus)Enum.Parse(typeof(OrderStatus), os)) ;
             builder.Property(o => o.SubTotal).HasColumnType("decimal(18,2)");
             builder.HasOne(o=>o.DeliveryMethod).WithMany().OnDelete(DeleteBehavior.SetNull) ;
+            builder.HasMany(o => o.OrderItems)
+                .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

@@ -33,22 +33,24 @@ namespace Talabat.Api.Controllers
             return Ok(order);
         }
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
+        public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrdersForUser()
         {
             var buyeremail = User.FindFirstValue(ClaimTypes.Email);
-            var orders =await _orderService.GetOrdersForUserAsyn(buyeremail);
-            return Ok(orders);
+            var orders = await _orderService.GetOrdersForUserAsyn(buyeremail);
+            var mappedorders = _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(orders);
+            return Ok(mappedorders);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderToReturnDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Order>> GetOrdersForUser(int id)
+        public async Task<ActionResult<OrderToReturnDto>> GetOrdersForUser(int id)
         {
             var buyeremail = User.FindFirstValue(ClaimTypes.Email);
             var order = await _orderService.GetOrderByIdForUserAsync(id,buyeremail);
             if (order is null) return NotFound(new ApiErrorResponse(404));
-            return Ok(order);
+            var mappedorder = _mapper.Map<Order, OrderToReturnDto>(order);
+            return Ok(mappedorder);
         }
         [HttpGet("AllDeliveryMethod")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethod()
